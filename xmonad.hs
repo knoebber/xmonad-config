@@ -5,18 +5,22 @@ import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
 
+
 main = do
-    xmproc <- spawnPipe "/usr/bin/xmobar /home/nicolas/.xmonad/xmobarrc"
+    xmproc <- spawnPipe "xmobar"
     xmonad $ defaultConfig
-        { terminal   = "alacritty"
-        , manageHook = manageDocks <+> manageHook defaultConfig -- need to find out what these 2 do
-        , layoutHook = avoidStruts  $  layoutHook defaultConfig -- avoidStruts?
-        , logHook    = dynamicLogWithPP xmobarPP
-                           { ppOutput = hPutStrLn xmproc
-                           , ppTitle  = xmobarColor "green" "" . shorten 50
-                           }
-        , modMask = mod4Mask     -- Rebind Mod to the Windows key
+        { modMask            = mod4Mask
+        , terminal           = "alacritty"
+        , manageHook         = manageDocks <+> manageHook defaultConfig
+        , layoutHook         = avoidStruts  $ layoutHook defaultConfig
+        , handleEventHook    = handleEventHook defaultConfig <+> docksEventHook
+        , logHook            = dynamicLogWithPP xmobarPP
+            { ppOutput          = hPutStrLn xmproc
+            ,  ppTitle          = xmobarColor "green" "black" . shorten 50
+            , ppHiddenNoWindows = xmobarColor "gray" "black"
+            }
         } `additionalKeys`
-        [ ((mod4Mask .|. shiftMask, xK_f), spawn "firefox") -- super shift f
-        , ((controlMask .|. shiftMask, xK_s), spawn "scrot") -- super shift s, doesn't to work yet
+        [
+         ((mod4Mask .|. shiftMask, xK_f), spawn "firefox")
         ]
+
