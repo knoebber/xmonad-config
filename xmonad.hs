@@ -7,7 +7,7 @@ import System.IO
 
 
 main = do
-    xmproc <- spawnPipe "xmobar"
+    xmproc <- spawnPipe "xmobar /home/nicolas/.xmonad/xmobarrc"
     xmonad $ defaultConfig
         { modMask            = mod4Mask
         , terminal           = "alacritty"
