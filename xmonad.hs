@@ -17,7 +17,7 @@ main = do
     , handleEventHook    = handleEventHook defaultConfig <+> docksEventHook
     , logHook            = dynamicLogWithPP xmobarPP
     { ppOutput          = hPutStrLn xmproc
-      , ppTitle          = xmobarColor "green" "black" . shorten 50
+      , ppTitle          = xmobarColor "green" "black" . shorten 150
       , ppHiddenNoWindows = xmobarColor "gray" "black"
     }
     } `additionalKeys`
